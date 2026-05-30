@@ -1,6 +1,6 @@
 # Weather App
 
-Full-stack weather app built with React (Vite) and Express.
+Full-stack weather app built with React, Vite, and Express.
 
 ## Prerequisites
 
@@ -14,7 +14,8 @@ Full-stack weather app built with React (Vite) and Express.
 ```bash
 cd server
 cp .env.example .env
-# Add your API_KEY to .env
+# Add your WeatherAPI key to .env:
+# API_KEY=your_api_key_here
 npm install
 npm run dev
 ```
@@ -27,7 +28,7 @@ npm install
 npm run dev
 ```
 
-The frontend proxies `/api` to `http://localhost:5000` during development.
+The frontend development server proxies `/api` requests to `http://localhost:5000`.
 
 ## Production build
 
@@ -38,6 +39,7 @@ npm run build
 
 cd ../server
 npm install
+cp .env.example .env
 # Set NODE_ENV=production, API_KEY, and CLIENT_URL in .env
 npm start
 ```
@@ -47,28 +49,24 @@ In production, the Express server:
 - serves the built React app from `frontend/dist`
 - exposes `/api/weather` and `/api/health`
 
+## API endpoints
+
+- `GET /api/health`
+- `GET /api/weather?city=<city-name>`
+
 ## Environment variables
 
-| Variable | Where | Description |
-|----------|-------|-------------|
-| `API_KEY` | server | WeatherAPI key (required) |
-| `PORT` | server | Server port (default: 5000) |
-| `NODE_ENV` | server | Set to `production` when deploying |
-| `CLIENT_URL` | server | Allowed frontend origin(s), comma-separated |
-| `VITE_API_URL` | frontend | Optional API base URL for split deployments |
+| Variable       | Where    | Description                                         |
+| -------------- | -------- | --------------------------------------------------- |
+| `API_KEY`      | server   | WeatherAPI key (required)                           |
+| `PORT`         | server   | Server port (default: `5000`)                       |
+| `NODE_ENV`     | server   | Set to `production` to serve the built frontend     |
+| `CLIENT_URL`   | server   | Optional comma-separated allowed origin(s) for CORS |
+| `VITE_API_URL` | frontend | Optional API base URL for split deployments         |
 
-## Security checklist
+## Notes
 
-- Never commit `.env` files
-- Rotate your API key if it was shared publicly
-- Set `CLIENT_URL` in production
-- Keep dependencies updated
-
-## Deploying
-
-Works on Render, Railway, Fly.io, or any Node host:
-
-1. Build the frontend (`npm run build` in `frontend`)
-2. Deploy the `server` folder with `NODE_ENV=production`
-3. Set environment variables in the host dashboard
-4. Ensure the start command is `npm start`
+- The backend uses `node index.js` for both `npm run dev` and `npm start`.
+- The frontend proxy is configured in `frontend/vite.config.js`.
+- Do not commit `.env` files or secrets to source control.
+- If `CLIENT_URL` is set in production, requests must originate from an allowed origin.
