@@ -70,3 +70,6 @@ In production, the Express server:
 - The frontend proxy is configured in `frontend/vite.config.js`.
 - Do not commit `.env` files or secrets to source control.
 - If `CLIENT_URL` is set in production, requests must originate from an allowed origin.
+
+
+<img src="./frontend/public/app.png" />
